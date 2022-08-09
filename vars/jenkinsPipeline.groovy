@@ -12,7 +12,7 @@ pipeline {
          steps {
             figlet 'SOURCE-CONTROL-MANAGEMENT'
             checkout scm // clonacion de codigo en nodo
-            jenkins()
+            slackOutput.slackSend()
         }
       }
         
