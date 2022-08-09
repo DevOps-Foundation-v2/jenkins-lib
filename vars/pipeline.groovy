@@ -1,4 +1,4 @@
-def call(pipelineType){
+def call(){
 pipeline {
     agent any 
     environment {
