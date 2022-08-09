@@ -1,9 +1,11 @@
+def call(pipelineType){
 pipeline {
     agent any 
     environment {
        DOCKER = tool 'docker' 
        DOCKER_EXEC = '$DOCKER/docker'
     }
+    
     stages {
       
       stage('SCM') {
@@ -81,4 +83,5 @@ pipeline {
         }
         
    }
+}
 }
