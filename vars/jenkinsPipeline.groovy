@@ -32,8 +32,8 @@ pipeline {
             figlet 'BUILD'
             script {
                 try {
-                     sh 'set +x; chmod 777 mvnw'
-                     //sh './mvnw clean install'
+                     sh 'set -x; chmod +x gradlew'
+                     sh './gradlew clean build'
                 }catch(all){
                     withEnv(["URL=${env.BUILD_URL}"]) {
                         sh('curl -d "text=SE REPORTA QUE: \n Pipeline ha fallado en Etapa de Build \n $URL" -d "channel=pipeline-devops" -H "Authorization: Bearer xoxb-3797904255923-3909536351217-Cyr3dj1QXDmCJyRGpk9Lo1on" -X POST https://slack.com/api/chat.postMessage')
