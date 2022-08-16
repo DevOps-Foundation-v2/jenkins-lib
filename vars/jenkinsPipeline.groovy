@@ -18,22 +18,27 @@ def call(pipelineType) {
         }
       }
 
-      stage('JIRA') {
-        steps {
-          withCredentials([string(credentialsId: 'token-jira', variable: 'JIRAPAT')]) {
-            //jiraTransitionIssue idOrKey: 'DF-1', input: env.transitionInput
-            sh('set -x; curl -u clagos353@gmail.com:$JIRAPAT -X POST --data "{\\"transition\\":{\\"id\\":\\"3\\"}}" -H "Content-Type: application/json" "https://fundamentosdevops.atlassian.net/rest/api/3/issue/DF-1/transitions"')
-          }
-        }
-      }
-
       stage('BUILD') {
         steps {
           figlet 'BUILD'
           script {
             try {
               sh 'set -x; chmod +x gradlew'
-              sh './gradlew clean build'
+              sh './gradlew clean build -x test'
+            } catch (all) {
+              slackOutput.slackSend()
+            }
+          }
+        }
+      }
+
+      stage('UNIT TEST') {
+        steps {
+          figlet 'UNIT-TEST'
+          script {
+            try {
+              sh 'set -x; chmod +x gradlew'
+              sh './gradlew test'
             } catch (all) {
               slackOutput.slackSend()
             }
